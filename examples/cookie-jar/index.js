@@ -35,6 +35,14 @@ app.get('/login', async (req, res) => {
 
 // Simulate user login and set a cookie
 app.post('/login', async (req, res) => {
+  // .post() method is used in Express.js to make a post request to the sever.
+  // async is a handler function: requires an 'await' statement.
+  // .post(x, async (req, res) => {
+  //  req: is the request from the client to the server
+  // .      req contains: http || https: information, headers, cookies, etc.
+  //  res: is the response from the server back to the client.
+  // .      res will return: data, status codes, cookies, redirects...
+  //})
   const { username, password } = req.body;
 
   const user = await db.get(
@@ -43,7 +51,10 @@ app.post('/login', async (req, res) => {
   );
 
   if (user) {
-    res.cookie('username', username);
+    // We are going to set various attributes on this login... Such as http: only.
+    res.cookie('username', username, {
+      httpOnly: true,
+    });
     res.redirect('/profile');
   } else {
     res.status(403).redirect('/login?error=Invalid login credentials.');
