@@ -1,9 +1,11 @@
 import { createServer, startServer } from '#shared';
 import { readFile } from 'fs/promises';
+import cookieParser from 'cookie-parser';
 
 import db from './database.js';
 
 const app = createServer({ cookies: false });
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
   if (!req.cookies) res.send('Cookies are disabled.');
